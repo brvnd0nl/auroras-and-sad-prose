@@ -18,6 +18,30 @@ export const useAppContext = () => {
 
 export const AppContextProvider = ({ children }) => {
   const [listArtists, setListArtists] = useState([]);
+  const [topSongs, setTopSongs] = useState([]);
+
+  const searchSongsGeniusAPI = async(artist) => {
+
+    const tokenAPI = "VYLQuLo9DKal6LlhBVT4IVdWWNFI0Hd_5Ac3HbBEDoTTZuT5PFzzIPRWIXUknpyV";
+
+    if (!artist) {
+      alert("Por favor ingrese el artista a buscar");
+      return;
+    }
+
+    const response = await fetch(
+      `https://api.genius.com/search?q=${artist}&access_token=${tokenAPI}`      
+    ).then(async(res) => await res.json())
+    .then(({response}) => {
+
+      const {hits} = response;
+
+      setTopSongs(hits);
+
+    }).catch(err => {
+      throw new Error(err);
+    });    
+  };
 
   const getInfoArtist = async (artist) => {
 
@@ -48,7 +72,9 @@ export const AppContextProvider = ({ children }) => {
         <AppContext.Provider
           value={{
             listArtists,
-            getInfoArtist
+            topSongs,
+            getInfoArtist,
+            searchSongsGeniusAPI
           }}
         >
           {children}

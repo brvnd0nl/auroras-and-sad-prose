@@ -7,17 +7,19 @@ const ArtistInfo = () => {
   const router = useRouter();
 
   const { idArtist } = router.query;
-  const { listArtists } = useAppContext();
+  const { listArtists, topSongs, searchSongsGeniusAPI } = useAppContext();
+
+  const artist = listArtists.filter((item) => item.idArtist === idArtist)[0];
 
   useEffect(() => {
     if(!idArtist || !listArtists){
         router.push('/');
     }
+
+    searchSongsGeniusAPI(artist.strArtist);
+
+    
   },[]);
-
-  const artist = listArtists.filter((item) => item.idArtist === idArtist)[0];
-
-  console.log("artista", artist);
 
   return (
     <>
@@ -33,36 +35,11 @@ const ArtistInfo = () => {
           <h1 className="sm:text-5xl text-3xl font-bold">Albumes</h1>
 
           <ul className="py-2 grid grid-cols-1 gap-0 sm:grid-cols-2 sm:gap-3">
-            <li>
-              <InfoAlbum />
-            </li>
-            <li>
-              <InfoAlbum />
-            </li>
-            <li>
-              <InfoAlbum />
-            </li>
-            <li>
-              <InfoAlbum />
-            </li>
-            <li>
-              <InfoAlbum />
-            </li>
-            <li>
-              <InfoAlbum />
-            </li>
-            <li>
-              <InfoAlbum />
-            </li>
-            <li>
-              <InfoAlbum />
-            </li>
-            <li>
-              <InfoAlbum />
-            </li>
-            <li>
-              <InfoAlbum />
-            </li>
+            {topSongs.length > 0 && topSongs.map((item, index) => (
+              <li key={index}>
+                <InfoAlbum data={item} />
+              </li>
+            ))}            
           </ul>
         </div>
       </section>
