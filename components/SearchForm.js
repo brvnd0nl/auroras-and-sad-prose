@@ -14,7 +14,7 @@ const SearchForm = () => {
     }
     return(
         <>
-            <form className="" onSubmit={(e) => handleSubmit(e)}>
+            <form onSubmit={(e) => handleSubmit(e)}>
                 <div className="mb-3">
                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                     Ingrese el artista:{" "}

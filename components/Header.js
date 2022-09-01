@@ -66,38 +66,45 @@ const Header = () => {
 
   return (
     <>
-      <header className="h-16 flex items-center justify-between">
-        <ul className="flex gap-4">
-          {!backButton && (
-            <a
-              className="font-semibold text-gray-400 hover:text-gray-500 cursor-pointer"
-              onClick={() => router.back()}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                className="w-6 h-6"
+      <style jsx>{`
+        .centerHeader{
+          text-align: -webkit-center;
+        }
+      `}</style>
+      <header className="centerHeader">
+        <div className="h-16 flex items-center justify-between max-w-2xl px-4">
+          <ul className="flex gap-4">
+            {!backButton && (
+              <a
+                className="font-semibold text-gray-400 hover:text-gray-500 cursor-pointer"
+                onClick={() => router.back()}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
-                />
-              </svg>
-            </a>
-          )}
-          {navigations.map((item, index) => (
-            <Link key={index} href={item.path}>
-              <a className="font-semibold text-gray-400 hover:text-gray-500">
-                {item.name}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  className="w-6 h-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
+                  />
+                </svg>
               </a>
-            </Link>
-          ))}
-        </ul>
-        {renderThemeChanger()}
+            )}
+            {navigations.map((item, index) => (
+              <Link key={index} href={item.path}>
+                <a className="font-semibold text-gray-400 hover:text-gray-500">
+                  {item.name}
+                </a>
+              </Link>
+            ))}
+          </ul>
+          {renderThemeChanger()}
+        </div>
       </header>
     </>
   );
