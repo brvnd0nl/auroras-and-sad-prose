@@ -1,4 +1,4 @@
-import { getLyrics, getSong } from 'genius-lyrics-api';
+import {getHtmlLyrics, parseSongHTML} from '../helpers'
 import Link from "next/link";
 
 const InfoAlbum = ({ data }) => {
@@ -7,19 +7,16 @@ const InfoAlbum = ({ data }) => {
   const { result } = data;  
   
   
-  const handleLyrics = (e) => {
+  const handleLyrics = async (e) => {
     e.preventDefault();
+  
+    const htmlGenius = await getHtmlLyrics(result.url);
+    console.log(htmlGenius);
+    if(htmlGenius){
+      const response = parseSongHTML(htmlGenius);
+      console.log('respuesta', response);
+    }
     
-    console.log("Datos Cancion", data);
-    const options = {
-      apiKey: process.env.GENIUS_ACCESS_TOKEN || "VYLQuLo9DKal6LlhBVT4IVdWWNFI0Hd_5Ac3HbBEDoTTZuT5PFzzIPRWIXUknpyV",
-      title: result.title,
-      artist: result.artist_names,
-      optimizeQuery: true
-    };
-
-    console.log('options', options);
-    getLyrics(options).then((lyrics) => console.log('letra',lyrics));
   }
 
 
