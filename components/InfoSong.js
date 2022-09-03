@@ -1,8 +1,20 @@
-import {getHtmlLyrics, parseSongHTML} from '../helpers'
 import Link from "next/link";
+import { useAppContext } from "../context/AppContext";
 
-const InfoAlbum = ({ data }) => {    
+const InfoSong = ({ data }) => {
 
+    const {getLyrics} = useAppContext();
+
+  const handleLyrics = async (e) => {
+    e.preventDefault();
+
+    const htmlGenius = await getLyrics(data.artist.name, data.name);
+    console.log(htmlGenius);
+    if (htmlGenius) {
+      const response = parseSongHTML(htmlGenius);
+      console.log("respuesta", response);
+    }
+  };
 
   return (
     <>
@@ -15,11 +27,14 @@ const InfoAlbum = ({ data }) => {
         <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
           {data.artist.name}
         </p>
-        <Link href={`/album/${data.name.toLowerCase()}?artist=${data.artist.name.toLowerCase()}`}>
-          <a            
+        <Link
+          href={`/lyrics/${data.name.toLowerCase()}?artist=${data.artist.name.toLowerCase()}&album=${''}`}
+        >
+          <a
+            onClick={(e) => handleLyrics(e)}
             className="inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
-            Read more
+            Get Lyrics
             <svg
               aria-hidden="true"
               className="ml-2 -mr-1 w-4 h-4"
@@ -40,13 +55,4 @@ const InfoAlbum = ({ data }) => {
   );
 };
 
-export async function getStaticPaths() {
-  return {
-    paths: [{ params: { id: '1' } }, { params: { id: '2' } }],
-    fallback: false, // can also be true or 'blocking'
-  }
-}
-
-export default InfoAlbum;
-
-
+export default InfoSong;
