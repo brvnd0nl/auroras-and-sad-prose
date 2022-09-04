@@ -4,8 +4,10 @@ import lyricsFinder from "lyrics-finder";
 
 export const AppContext = createContext();
 
-const LIMIT_DICCIONARY_ITEMS =
-  process.env.NEXT_PUBLIC_LIMIT_DICCIONARY_ITEMS || 3;
+export const isMobileDevice = () => /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+const LIMIT_ITEMS =
+  process.env.NEXT_PUBLIC_LIMIT_ITEMS || 3;
 
 export const useAppContext = () => {
     const context = useContext(AppContext);
@@ -72,9 +74,9 @@ export const AppContextProvider = ({ children }) => {
     artists.forEach((nItem) => {
       artistArray = artistArray.filter((item) => item.idArtist !== nItem.idArtist);
 
-      artistArray.push(nItem);
+      artistArray.unshift(nItem);
 
-      if (artistArray.length > LIMIT_DICCIONARY_ITEMS) artistArray.splice(0, 1);
+      if (artistArray.length > LIMIT_ITEMS) artistArray.splice(artistArray.length - 1, 1);
     });    
 
     setListArtists(artistArray);
@@ -131,6 +133,7 @@ export const AppContextProvider = ({ children }) => {
             listArtists,
             topAlbums,
             albumSelected,
+            isMobileDevice,
             getInfoArtist,
             getAlbumsLastFM,          
             getInfoAlbumLastFM,
