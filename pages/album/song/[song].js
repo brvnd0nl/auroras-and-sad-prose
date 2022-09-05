@@ -30,7 +30,7 @@ export const getServerSideProps = async (ctx) => {
     return { redirect: { destination: "/", permanent: false } };
   }
 
-  const response = await fetch(
+  const htmlResponse = await fetch(
     `${serverPath}/api/lyrics/azl/${artist
       .replace(" ", "")
       .toLowerCase()}/${song.replace(" ", "").toLowerCase()}.html`,
@@ -49,7 +49,7 @@ export const getServerSideProps = async (ctx) => {
       console.warn("Something went wrong.", err);
     });
 
-  const lyrics = parseSongHTML(response);
+  const lyrics = parseSongHTML(htmlResponse);
 
   if (!lyrics) {
     return {
@@ -60,6 +60,7 @@ export const getServerSideProps = async (ctx) => {
   return {
     props: {
       lyrics,
+      html: htmlResponse
     },
   };
 };
