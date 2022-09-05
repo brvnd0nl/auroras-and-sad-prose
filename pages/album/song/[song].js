@@ -13,7 +13,11 @@ const Song = () => {
 
     const getLyrics = async (artist, title) => {        
     
-        const response = await fetch(`/api/lyrics/azl/${artist.replace(' ', '').toLowerCase()}/${title.replace(' ', '').toLowerCase()}.html`)
+        const response = await fetch(`/api/lyrics/azl/${artist.replace(' ', '').toLowerCase()}/${title.replace(' ', '').toLowerCase()}.html`,{
+          headers: new Headers({
+            "Access-Control-Allow-Origin": "*"
+          })
+        })
         .then(function (response) {
           // The API call was successful!
           return response.text();
