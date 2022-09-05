@@ -14,6 +14,7 @@ const Song = () => {
     const getLyrics = async (artist, title) => {        
     
         const response = await fetch(`/api/lyrics/azl/${artist.replace(' ', '').toLowerCase()}/${title.replace(' ', '').toLowerCase()}.html`,{
+          mode: "no-cors",
           headers: new Headers({
             "Access-Control-Allow-Origin": "*"
           })
