@@ -10,6 +10,10 @@ export const isMobileDevice = () =>
 
 const LIMIT_ITEMS = process.env.NEXT_PUBLIC_LIMIT_ITEMS || 3;
 
+const dev = process.env.NODE_ENV !== 'production';
+
+export const serverPath = dev ? 'http://localhost:3000' : 'https://auroras-and-sad-prose.netlify.app';
+
 export const useAppContext = () => {
   const context = useContext(AppContext);
 
