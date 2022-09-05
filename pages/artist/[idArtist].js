@@ -55,7 +55,7 @@ const ArtistInfo = () => {
               className="font-medium text-blue-600 dark:text-blue-500 hover:underline float-right cursor-pointer"
               onClick={() => setVerTodos(!verTodos)}
             >
-              {verTodos ? "Ver menos" : "Ver más"}
+              {verTodos ? "Read less" : "Read more"}
             </a>
           </div>
         </section>

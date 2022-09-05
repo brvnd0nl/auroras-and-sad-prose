@@ -47,7 +47,7 @@ const AlbumInfo = () => {
             </p>
           </div>
           <div className=" w-full sm:p-8 p-5">
-            <h1 className="sm:text-5xl text-3xl font-bold">Canciones</h1>
+            <h1 className="sm:text-5xl text-3xl font-bold">Songs</h1>
 
             {/* <ul className="py-2 grid grid-cols-1 gap-0 sm:grid-cols-2 sm:gap-3"> */}
             <ul className="py-5 w-full divide-y divide-gray-200 dark:divide-gray-700">
@@ -75,7 +75,7 @@ const AlbumInfo = () => {
               className="font-medium text-blue-600 dark:text-blue-500 hover:underline float-right cursor-pointer"
               onClick={() => setVerTodos(!verTodos)}
             >
-              {verTodos ? "Ver menos" : "Ver más"}
+              {verTodos ? "Read less" : "Read more"}
             </a>
           </div>
         </section>
