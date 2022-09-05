@@ -1,4 +1,5 @@
 import * as cheerio from "cheerio";
+import * as h2p from "html2plaintext";
 
 export const getHtmlLyrics = async (url) => {
   console.log(url, 'url a consultar');
@@ -14,10 +15,12 @@ export const getHtmlLyrics = async (url) => {
 
 export const parseSongHTML = (htmlText) => {
   const $ = cheerio.load(htmlText);
-  const lyrics = $(".lyrics").text();
-  const releaseDate = $("release-date .song_info-info").text();
-  return {
-    lyrics,
-    releaseDate,
-  };
+  let response = "";
+  $('div:not([class])').each(function(){
+    var lyrics = h2p($(this).html()); 
+    if(lyrics != ''){
+      response = lyrics;
+    }
+  });
+  return response;
 };

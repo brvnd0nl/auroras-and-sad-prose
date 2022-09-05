@@ -9,10 +9,6 @@ const InfoSong = ({ data }) => {
 
     const htmlGenius = await getLyrics(data.artist.name, data.name);
     console.log(htmlGenius);
-    if (htmlGenius) {
-      const response = parseSongHTML(htmlGenius);
-      console.log("respuesta", response);
-    }
   };
 
   return (
@@ -37,19 +33,18 @@ const InfoSong = ({ data }) => {
           <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
             {data.duration === null
               ? ""
-              : `${Math.floor(data.duration / 60)}:${
-                  (data.duration - Math.floor(data.duration / 60) * 60).toLocaleString('es-CO', {
-                    minimumIntegerDigits: 2,
-                    useGrouping: false
-                  })
-                }`}
+              : `${Math.floor(data.duration / 60)}:${(
+                  data.duration -
+                  Math.floor(data.duration / 60) * 60
+                ).toLocaleString("es-CO", {
+                  minimumIntegerDigits: 2,
+                  useGrouping: false,
+                })}`}
           </div>
-          <div>
-            <button
-              onClick={(e) => handleLyrics(e)}
-              tooltip='Get Lyrics'
+          <Link href={`/album/song/${data.name}?artist=${data.artist.name}`}>
+            <a              
+              tooltip="Get Lyrics"
               title="Get Lyrics"
-              type="button"
               className="text-white hover:ring-1 focus:ring-3 focus:outline-none hover:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:hover:ring-blue-800"
             >
               <svg
@@ -65,17 +60,8 @@ const InfoSong = ({ data }) => {
                   clipRule="evenodd"
                 ></path>
               </svg>
-            </button>
-            <div
-              id="tooltip-default"
-              role="tooltip"
-              className="inline-block absolute invisible z-10 py-2 px-3 text-sm font-medium text-white bg-white rounded-lg shadow-sm opacity-0 transition-opacity duration-300 tooltip dark:bg-gray-700"
-            >
-              Get Lyrics
-              <div className="tooltip-arrow" data-popper-arrow></div>
-            </div>
-            
-          </div>
+            </a>
+          </Link>
         </div>
       </li>
 
