@@ -9,8 +9,6 @@ const Song = ({ lyrics }) => {
 
   const { song, artist } = router.query;
 
-  console.log("datos", lyrics);
-
   return (
     <>
       <section className="mt-5 max-w-2xl mx-auto px-4">
@@ -26,6 +24,11 @@ const Song = ({ lyrics }) => {
 
 export const getServerSideProps = async (ctx) => {
   const { artist, song } = ctx.query;
+
+  let nSong = song.substring(
+    0,
+    song.indexOf("(") - 1
+  );
 
   if (!artist || !song) {
     return { redirect: { destination: "/", permanent: false } };
@@ -67,9 +70,15 @@ export const getServerSideProps = async (ctx) => {
 
   const Client = new Genius.Client();
 
-  const searches = await Client.songs.search(`${song} ${artist}`);
+  const searches = await Client.songs.search(`${nSong} ${artist}`);
 
-  const songData = searches.find(item => item.title === song && item.artist.name === artist);
+  const songData = searches.find(item => item.title === nSong && item.artist.name === artist);
+
+  if(!songData){
+    return {
+      notFound: true,
+    };
+  }
 
   const lyrics = await songData.lyrics();
 

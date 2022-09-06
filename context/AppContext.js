@@ -88,8 +88,8 @@ export const AppContextProvider = ({ children }) => {
 
   const getAlbumsLastFM = async (artist) => {
     if (!artist) {
-      alert("Por favor ingrese el artista a buscar");
-      return;
+      // alert("Por favor ingrese el artista a buscar");
+      return null;
     }
 
     const token = await getTokenLastFM_API();
@@ -103,7 +103,8 @@ export const AppContextProvider = ({ children }) => {
 
   const getInfoAlbumLastFM = async (artist, album) => {
     if (!artist || !album) {
-      alert("Por favor ingrese el artista a buscar");
+      // alert("Por favor ingrese el artista a buscar");
+      return null;
     }
 
     const token = await getTokenLastFM_API();
