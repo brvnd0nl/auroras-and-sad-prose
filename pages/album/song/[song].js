@@ -77,6 +77,7 @@ export const getServerSideProps = async (ctx) => {
   if(!songData){
     return {
       notFound: true,
+      redirect: { destination: "/", permanent: false }
     };
   }
 
