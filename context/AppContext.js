@@ -10,6 +10,10 @@ export const isMobileDevice = () =>
 
 const LIMIT_ITEMS = process.env.NEXT_PUBLIC_LIMIT_ITEMS || 3;
 
+const dev = process.env.NODE_ENV !== 'production';
+
+export const serverPath = dev ? 'http://localhost:3000' : 'https://auroras-and-sad-prose.netlify.app';
+
 export const useAppContext = () => {
   const context = useContext(AppContext);
 
@@ -84,8 +88,8 @@ export const AppContextProvider = ({ children }) => {
 
   const getAlbumsLastFM = async (artist) => {
     if (!artist) {
-      alert("Por favor ingrese el artista a buscar");
-      return;
+      // alert("Por favor ingrese el artista a buscar");
+      return null;
     }
 
     const token = await getTokenLastFM_API();
@@ -99,7 +103,8 @@ export const AppContextProvider = ({ children }) => {
 
   const getInfoAlbumLastFM = async (artist, album) => {
     if (!artist || !album) {
-      alert("Por favor ingrese el artista a buscar");
+      // alert("Por favor ingrese el artista a buscar");
+      return null;
     }
 
     const token = await getTokenLastFM_API();

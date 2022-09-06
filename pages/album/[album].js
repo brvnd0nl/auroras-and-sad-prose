@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useAppContext } from "../../context/AppContext";
 import InfoSong from "../../components/InfoSong";
 
-const AlbumInfo = () => {
+const Album = () => {
   const router = useRouter();
 
   const { getInfoAlbumLastFM, albumSelected } = useAppContext();
@@ -89,4 +89,4 @@ const AlbumInfo = () => {
   );
 };
 
-export default AlbumInfo;
+export default Album;
