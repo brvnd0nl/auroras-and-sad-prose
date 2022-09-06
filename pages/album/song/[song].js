@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { serverPath } from "../../../context/AppContext";
 import { parseSongHTML } from "../../../helpers";
+import * as Genius from "genius-lyrics";
 
 const Song = ({ lyrics }) => {
   const router = useRouter();
@@ -30,37 +31,53 @@ export const getServerSideProps = async (ctx) => {
     return { redirect: { destination: "/", permanent: false } };
   }
 
-  const htmlResponse = await fetch(
-    `${serverPath}/api/lyrics/azl/${artist
-      .replace(" ", "")
-      .toLowerCase()}/${song.replace(" ", "").toLowerCase()}.html`,
-    {
-      headers: new Headers({
-        "Access-Control-Allow-Origin": "*",
-      }),
-    }
-  )
-    .then(function (response) {
-      // The API call was successful!
-      return response.text();
-    })
-    .catch(function (err) {
-      // There was an error
-      console.warn("Something went wrong.", err);
-    });
+  // const htmlResponse = await fetch(
+  //   `${serverPath}/api/lyrics/azl/${artist
+  //     .replace(" ", "")
+  //     .toLowerCase()}/${song.replace(" ", "").toLowerCase()}.html`,
+  //   {
+  //     headers: new Headers({
+  //       "Access-Control-Allow-Origin": "*",
+  //     }),
+  //   }
+  // )
+  //   .then(function (response) {
+  //     // The API call was successful!
+  //     return response.text();
+  //   })
+  //   .catch(function (err) {
+  //     // There was an error
+  //     console.warn("Something went wrong.", err);
+  //   });
 
-  const lyrics = parseSongHTML(htmlResponse);
+  // const lyrics = parseSongHTML(htmlResponse);
+  //-------------------------------------------------------
+  // const uid = '10817';
+  // const token = 'qDMDkCMNOobSnc04';  
 
-  if (!lyrics) {
-    return {
-      notFound: true,
-    };
-  }
+  // const htmlResponse = await fetch(
+  //   `https://www.stands4.com/services/v2/lyrics.php?uid=${uid}&tokenid=${token}&artist=${artist
+  //     .toLowerCase()}&term=${song.toLowerCase()}&format=json`,
+  //   {
+  //     headers: new Headers({
+  //       "Access-Control-Allow-Origin": "*",
+  //     }),
+  //   }
+  // );
+
+  const Client = new Genius.Client();
+
+  const searches = await Client.songs.search(`${song} ${artist}`);
+
+  const songData = searches.find(item => item.title === song && item.artist.name === artist);
+
+  const lyrics = await songData.lyrics();
 
   return {
     props: {
       lyrics,
-      html: htmlResponse
+      // html: htmlResponse
+      // data: songData
     },
   };
 };
