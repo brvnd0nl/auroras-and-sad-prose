@@ -1,7 +1,4 @@
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { serverPath } from "../../../context/AppContext";
-import { parseSongHTML } from "../../../helpers";
 import * as Genius from "genius-lyrics";
 
 const Song = ({ lyrics }) => {
@@ -25,10 +22,7 @@ const Song = ({ lyrics }) => {
 export const getServerSideProps = async (ctx) => {
   const { artist, song } = ctx.query;
 
-  let nSong = song.substring(
-    0,
-    song.indexOf("(") - 1
-  );
+  const nSong = song.includes('(') ? song.substring(0, song.indexOf("(") - 1) : song;
 
   if (!artist || !song) {
     return { redirect: { destination: "/", permanent: false } };
@@ -56,7 +50,7 @@ export const getServerSideProps = async (ctx) => {
   // const lyrics = parseSongHTML(htmlResponse);
   //-------------------------------------------------------
   // const uid = '10817';
-  // const token = 'qDMDkCMNOobSnc04';  
+  // const token = 'qDMDkCMNOobSnc04';
 
   // const htmlResponse = await fetch(
   //   `https://www.stands4.com/services/v2/lyrics.php?uid=${uid}&tokenid=${token}&artist=${artist
@@ -72,12 +66,14 @@ export const getServerSideProps = async (ctx) => {
 
   const searches = await Client.songs.search(`${nSong} ${artist}`);
 
-  const songData = searches.find(item => item.title === nSong && item.artist.name === artist);
+  const songData = searches.find(
+    (item) => item.title === nSong && item.artist.name === artist
+  );
 
-  if(!songData){
+  if (!songData) {
     return {
       notFound: true,
-      redirect: { destination: "/", permanent: false }
+      redirect: { destination: "/", permanent: false },
     };
   }
 
@@ -87,7 +83,8 @@ export const getServerSideProps = async (ctx) => {
     props: {
       lyrics,
       // html: htmlResponse
-      // data: songData
+      // data: songData,
+      // allData: searches,
     },
   };
 };
