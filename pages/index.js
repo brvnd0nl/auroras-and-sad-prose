@@ -8,7 +8,7 @@ const Home = () => {
   return (
     <>
       <section className="mt-5 max-w-2xl mx-auto px-4">
-        <h1 className="block text-6xl font-bold mb-3">Bienvenid@!</h1>
+        <h1 className="block text-6xl font-bold mb-3">Welcome!</h1>
         <SearchForm />
       </section>
       <div className="m-5">
