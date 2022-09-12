@@ -1,7 +1,4 @@
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { serverPath } from "../../../context/AppContext";
-import { parseSongHTML } from "../../../helpers";
 import * as Genius from "genius-lyrics";
 
 const Song = ({ lyrics }) => {
@@ -87,7 +84,7 @@ export const getServerSideProps = async (ctx) => {
       lyrics,
       // html: htmlResponse
       data: songData,
-      allData: searches,
+      // allData: searches,
     },
   };
 };
