@@ -27,6 +27,26 @@ const Album = () => {
     getInfoAlbumLastFM(artist, album);
   }, []);
 
+  const renderSongs = (tracks) => {
+    if(tracks){
+      if (Array.isArray(tracks.track)) {
+        if(verTodos){
+          return tracks.track.map((item, index) => (
+            <InfoSong key={index} data={item} album={albumSelected.name} />
+          ));
+        }else{
+          return tracks.track.slice(0, 5).map((item, index) => (
+            <InfoSong key={index} data={item} album={albumSelected.name} />
+          ));
+        }                 
+      } else {
+        return <InfoSong data={tracks.track} album={albumSelected.name} />;
+      }
+    }else{
+      return null;
+    }
+  };
+
   return (
     <>
       {albumSelected !== null ? (
@@ -51,25 +71,7 @@ const Album = () => {
 
             {/* <ul className="py-2 grid grid-cols-1 gap-0 sm:grid-cols-2 sm:gap-3"> */}
             <ul className="py-5 w-full divide-y divide-gray-200 dark:divide-gray-700">
-              {albumSelected.tracks
-                ? verTodos
-                  ? albumSelected.tracks.track.map((item, index) => (
-                      <InfoSong
-                        key={index}
-                        data={item}
-                        album={albumSelected.name}
-                      />
-                    ))
-                  : albumSelected.tracks.track
-                      .slice(0, 5)
-                      .map((item, index) => (
-                        <InfoSong
-                          key={index}
-                          data={item}
-                          album={albumSelected.name}
-                        />
-                      ))
-                : null}
+              {renderSongs(albumSelected.tracks)}
             </ul>
             <a
               className="font-medium text-blue-600 dark:text-blue-500 hover:underline float-right cursor-pointer"

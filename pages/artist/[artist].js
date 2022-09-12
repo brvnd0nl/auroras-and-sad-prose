@@ -24,6 +24,34 @@ const Arist = () => {
     getAlbumsLastFM(artistData.strArtist);
   }, []);
 
+  const renderAlbums = (albums) => {
+    if(albums){
+      if (Array.isArray(albums)) {
+        if(verTodos){
+          return topAlbums.map((item, index) => (
+            <li key={index}>
+              <InfoAlbum data={item} />
+            </li>
+          ));
+        }else{
+          return topAlbums.slice(0,10).map((item, index) => (
+            <li key={index}>
+              <InfoAlbum data={item} />
+            </li>
+          ))
+        }                 
+      } else {
+        return (
+          <li>
+            <InfoAlbum data={albums} />
+          </li>
+        );
+      }
+    }else{
+      return null;
+    }
+  };
+
   return (
     <>
       {artistData !== null && (
@@ -38,18 +66,8 @@ const Arist = () => {
           <div className="sm:p-10 p-5">
             <h1 className="sm:text-5xl text-3xl font-bold">Albums</h1>
 
-            <ul className="py-2 grid grid-cols-1 gap-0 sm:grid-cols-2 sm:gap-3">
-              {topAlbums.length > 0 && verTodos
-                ? topAlbums.map((item, index) => (
-                    <li key={index}>
-                      <InfoAlbum data={item} />
-                    </li>
-                  ))
-                : topAlbums.slice(0, 10).map((item, index) => (
-                    <li key={index}>
-                      <InfoAlbum data={item} />
-                    </li>
-                  ))}
+            <ul className="py-2 grid grid-cols-1 gap-0 sm:grid-cols-2 sm:gap-3 sm:auto-rows-min">
+              {renderAlbums(topAlbums)}
             </ul>
             <a
               className="font-medium text-blue-600 dark:text-blue-500 hover:underline float-right cursor-pointer"
