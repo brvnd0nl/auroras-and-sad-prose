@@ -83,7 +83,7 @@ export const getServerSideProps = async (ctx) => {
     props: {
       lyrics,
       // html: htmlResponse
-      data: songData,
+      // data: songData,
       // allData: searches,
     },
   };
